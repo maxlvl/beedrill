@@ -2,8 +2,6 @@ package client
 
 
 import (
-  "bytes"
-  "io/ioutil"
   "net/http"
   "net/http/httptest"
   "testing"
@@ -19,18 +17,13 @@ func TestHTTPClient(t *testing.T) {
   }))
   defer ts.Close()
 
-  config := client.HTTPClientConfig{
+  config := HTTPClientConfig{
     Timeout: 5 * time.Second,
   }
 
-  httpClient := client.NewHTTPClient(config)
+  httpClient := NewHTTPClient(config)
 
-  resp, err := httpClient.Get(ts.URL)
+  body, err := Get(httpClient, ts.URL)
   assert.NoError(t, err)
-  assert.Equal(t, http.StatusOK, resp.StatusCode)
-
-  body, err := ioutil.ReadAll(resp.Body)
-  resp.Body.Close()
-  assert.NoError(t, err)
-  assert.Equal("OK", string(body))
+  assert.Equal(t, "OK", body)
 }
