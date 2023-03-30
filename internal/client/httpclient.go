@@ -12,7 +12,6 @@ type HTTPClientConfig struct {
 	Timeout time.Duration
 }
 
-
 func NewHTTPClient(config HTTPClientConfig) *http.Client {
 	return &http.Client{
 		Timeout: config.Timeout,
