@@ -7,6 +7,7 @@ import (
 	"net/http"
   "math/rand"
   "github.com/maxlvl/gocust/internal/client"
+  "github.com/maxlvl/gocust/internal/metrics"
 )
 
 type LoadTesterConfig struct {
@@ -18,12 +19,14 @@ type LoadTesterConfig struct {
 type LoadTester struct {
   config        LoadTesterConfig  
   httpClient    *http.Client
+  collector     *metrics.Collector
 }
 
 func NewLoadTester(config LoadTesterConfig) *LoadTester {
   return &LoadTester{
     config: config,
     httpClient: client.NewHTTPClient(config.HTTPClientConfig),
+    collector := metrics.NewCollector()
   }
 }
 
@@ -43,12 +46,18 @@ func (lt *LoadTester) Run(scenarios []Scenario) {
 
       for time.Since(startTime) < lt.config.TestDuration {
         scenarioIndex := rand.Intn(len(scenarios))
-        scenarios[scenarioIndex].Execute(lt.httpClient)
+        result := scenarios[scenarioIndex].Execute(lt.httpClient)
+        lt.collector.Collect(result)
       }
     }()
   }
 
-  waitGroup.Wait()
+  go func() {
+    waitGroup.Wait()
+    lt.collector.Close()
+    reporter := metrics.NewReporter(lt.collector)
+    reporter.Report()
+  }()
 }
 
 type Scenario interface {
