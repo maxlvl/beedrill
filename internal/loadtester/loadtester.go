@@ -7,8 +7,18 @@ import (
 	"net/http"
   "math/rand"
   "github.com/maxlvl/gocust/internal/client"
-  "github.com/maxlvl/gocust/internal/metrics"
+  "log"
 )
+
+type Result struct {
+	Scenario    string
+	Success     bool
+	Latency     time.Duration
+	StartTime   time.Time
+	EndTime     time.Time
+	StatusCode  int
+	Error       error
+}
 
 type LoadTesterConfig struct {
   Concurrency       int
@@ -19,14 +29,14 @@ type LoadTesterConfig struct {
 type LoadTester struct {
   config        LoadTesterConfig  
   httpClient    *http.Client
-  collector     *metrics.Collector
+  collector     *Collector
 }
 
 func NewLoadTester(config LoadTesterConfig) *LoadTester {
   return &LoadTester{
     config: config,
     httpClient: client.NewHTTPClient(config.HTTPClientConfig),
-    collector := metrics.NewCollector()
+    collector: NewCollector(),
   }
 }
 
@@ -46,7 +56,10 @@ func (lt *LoadTester) Run(scenarios []Scenario) {
 
       for time.Since(startTime) < lt.config.TestDuration {
         scenarioIndex := rand.Intn(len(scenarios))
-        result := scenarios[scenarioIndex].Execute(lt.httpClient)
+        result, err := scenarios[scenarioIndex].Execute(lt.httpClient)
+        if err != nil {
+          log.Fatal("Error running Scenario: %s", err)
+        }
         lt.collector.Collect(result)
       }
     }()
@@ -55,11 +68,8 @@ func (lt *LoadTester) Run(scenarios []Scenario) {
   go func() {
     waitGroup.Wait()
     lt.collector.Close()
-    reporter := metrics.NewReporter(lt.collector)
+    reporter := NewReporter(lt.collector)
     reporter.Report()
   }()
 }
 
-type Scenario interface {
-  Execute(httpClient *http.Client)
-}

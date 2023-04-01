@@ -3,15 +3,39 @@ package loadtester
 import (
   "encoding/json"
   "net/http"
+  "time"
 	"github.com/maxlvl/gocust/internal/client"
 )
+
+type Scenario interface {
+  Execute(httpClient *http.Client) (*Result, error)
+}
 
 type SimpleScenario struct {
   URL     string
 }
 
-func (s *SimpleScenario) Execute(httpClient *http.Client) {
-  client.Get(httpClient, s.URL)
+func (s *SimpleScenario) Execute(httpClient *http.Client) (*Result, error) {
+  startTime := time.Now()
+  result := &Result{
+    Scenario: "SimpleScenario",
+    StartTime: startTime,
+  }
+
+  resp, err := client.Get(httpClient, s.URL)
+  if err != nil {
+    result.Error = err
+    result.Success = false
+    return result, err
+  }
+  defer resp.Body.Close()
+
+  result.EndTime = time.Now()
+  result.Latency = result.EndTime.sub(startTime)
+  result.StatusCode = resp.StatusCode
+  result.Success = resp.StatusCode == 200 && resp.StatusCode < 300
+
+  return result, nil
 }
 
 
@@ -21,8 +45,28 @@ type ComplexScenario struct {
   Payload      interface{}
 }
 
-func (c *ComplexScenario) Execute(httpClient *http.Client) {
+func (c *ComplexScenario) Execute(httpClient *http.Client) (*Result, error) {
+  startTime := time.Now()
+
+  result := &Result{
+    Scenario: "ComplexScenario",
+    StartTime: startTime,
+  }
+
   httpClient.Get(c.GetURL)
   data, _ := json.Marshal(c.Payload)
-  client.Post(httpClient, c.PostURL, string(data))
+  resp, err := client.Post(httpClient, c.PostURL, string(data))
+  if err != nil {
+    result.Error = err
+    result.Success = false
+    return result, err
+  }
+  defer resp.Body.Close()
+
+  result.EndTime = time.Now()
+  result.Latency = result.EndTime.sub(startTime)
+  result.StatusCode = resp.StatusCode
+  result.Success = resp.StatusCode == 200 && resp.StatusCode < 300
+
+  return result, nil
 }
