@@ -60,16 +60,14 @@ func (lt *LoadTester) Run(scenarios []Scenario) {
         if err != nil {
           log.Fatal("Error running Scenario: %s", err)
         }
-        lt.collector.Collect(result)
+        lt.collector.Collect(*result)
       }
     }()
   }
-
-  go func() {
-    waitGroup.Wait()
-    lt.collector.Close()
-    reporter := NewReporter(lt.collector)
-    reporter.Report()
-  }()
+  waitGroup.Wait()
+  fmt.Printf("Waited until waitgroup was done")
+  lt.collector.Close()
+  reporter := NewReporter(lt.collector)
+  reporter.Report()
 }
 
