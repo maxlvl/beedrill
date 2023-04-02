@@ -17,7 +17,7 @@ func NewReporter(collector *Collector) *Reporter {
 }
 
 func (r *Reporter) Report() {
-  fmt.Println("\nLoad Testing Results:\n")
+  fmt.Println("\nLoad Testing Results:")
   r.Collector.Results.Range(func(key, value interface{}) bool {
     scenarioName := key.(string)
     scenarioResults := value.([]Result)
