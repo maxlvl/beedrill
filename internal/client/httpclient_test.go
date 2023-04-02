@@ -23,9 +23,9 @@ func TestHTTPClientGet(t *testing.T) {
 
   httpClient := NewHTTPClient(config)
 
-  body, err := Get(httpClient, ts.URL)
+  resp, err := Get(httpClient, ts.URL)
   assert.NoError(t, err)
-  assert.Equal(t, "OK", body)
+  assert.Equal(t, 200, resp.StatusCode)
 }
 
 func TestHTTPClientPost(t *testing.T) {
@@ -42,7 +42,7 @@ func TestHTTPClientPost(t *testing.T) {
   httpClient := NewHTTPClient(config)
   payload := "{'hello': 'world'}"
 
-  body, err := Post(httpClient, ts.URL, payload)
+  resp, err := Post(httpClient, ts.URL, payload)
   assert.NoError(t, err)
-  assert.Equal(t, "OK", body)
+  assert.Equal(t, 200, resp.StatusCode)
 }
