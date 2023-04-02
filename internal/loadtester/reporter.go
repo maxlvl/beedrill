@@ -17,14 +17,10 @@ func NewReporter(collector *Collector) *Reporter {
 }
 
 func (r *Reporter) Report() {
-  resultMap := make(map[string][]Result)
-
-  for result := range r.Collector.Results{
-    resultMap[result.Scenario] = append(resultMap[result.Scenario], result)
-  }
-
   fmt.Println("\nLoad Testing Results:\n")
-  for scenarioName, scenarioResults := range resultMap {
+  r.Collector.Results.Range(func(key, value interface{}) bool {
+    scenarioName := key.(string)
+    scenarioResults := value.([]Result)
     successCount := 0
     totalLatency := time.Duration(0)
 
@@ -43,5 +39,6 @@ func (r *Reporter) Report() {
 		fmt.Printf("  Successful Requests: %d\n", successCount)
 		fmt.Printf("  Success Rate: %.2f%%\n", successRate)
 		fmt.Printf("  Average Latency: %v\n", averageLatency)
-  }
+    return true
+  })
 }
