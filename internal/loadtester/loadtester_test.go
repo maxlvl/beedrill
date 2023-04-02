@@ -10,8 +10,9 @@ import (
 
 type MockScenario struct {}
 
-func (ms *MockScenario) Execute(httpclient *http.Client) {
+func (ms *MockScenario) Execute(httpclient *http.Client) (*Result, error) {
   time.Sleep(100 * time.Millisecond)
+  return &Result{}, nil
 }
 
 func TestLoadTester_Run(t *testing.T) {
