@@ -1,21 +1,21 @@
 package loadtester
 
+import (
+  "sync"
+)
+
+
 type Collector struct {
-  Results chan Result
+  Results sync.Map
 }
 
 func NewCollector() *Collector {
-  return &Collector{
-    Results: make(chan Result),
-  }
+  collector := &Collector{}
+  return collector
 }
 
 func (c *Collector) Collect(result Result) {
-  c.Results <- result
+  scenarioResults, _ := c.Results.LoadOrStore(result.Scenario, []Result{})
+  c.Results.Store(result.Scenario, append(scenarioResults.([]Result), result))
 }
 
-func (c *Collector) Close() {
-  reporter := NewReporter(c)
-  reporter.Report()
-  close(c.Results)
-}
