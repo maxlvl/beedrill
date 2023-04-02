@@ -10,7 +10,7 @@ func NewCollector() *Collector {
   }
 }
 
-func (c *Collector) Collect(result *Result) {
+func (c *Collector) Collect(result Result) {
   c.Results <- result
 }
 
