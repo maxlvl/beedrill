@@ -7,7 +7,6 @@ import (
 	"net/http"
   "math/rand"
   "github.com/maxlvl/gocust/internal/client"
-  "log"
 )
 
 type Result struct {
@@ -44,29 +43,31 @@ func (lt *LoadTester) Run(scenarios []Scenario) {
   // no need for channels yet as each goroutine can run independently
   // will likely introduce channels once we need aggregated metrics for all goroutines
   var waitGroup sync.WaitGroup
+	// var collectorMutex sync.Mutex // add a mutex for the collector
   fmt.Printf("Adding %d concurrent workers...\n", lt.config.Concurrency)
   waitGroup.Add(lt.config.Concurrency)
+
+  fmt.Printf("Test duration: %s\n", lt.config.TestDuration) // Print TestDuration
 
   for i := 0; i < lt.config.Concurrency; i++ {
     go func() {
       defer waitGroup.Done()
       startTime := time.Now()
-      fmt.Printf("Running random scenario for startTime %s\n", startTime.Format("2006-01-02 15:04:05"))
-
 
       for time.Since(startTime) < lt.config.TestDuration {
+        elapsedTime := time.Since(startTime)
+        fmt.Printf("Running random scenario for startTime %s, elapsed time: %s\n", startTime.Format("2006-01-02 15:04:05"), elapsedTime) // Print elapsed time
         scenarioIndex := rand.Intn(len(scenarios))
         result, err := scenarios[scenarioIndex].Execute(lt.httpClient)
         if err != nil {
-          log.Fatal("Error running Scenario: %s", err)
+          fmt.Printf("Error running Scenario: %s", err)
         }
         lt.collector.Collect(*result)
       }
     }()
   }
+
   waitGroup.Wait()
-  fmt.Printf("Waited until waitgroup was done")
-  lt.collector.Close()
   reporter := NewReporter(lt.collector)
   reporter.Report()
 }
