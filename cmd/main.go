@@ -9,9 +9,9 @@ import (
 func main() {
 	ltConfig := loadtester.LoadTesterConfig{
 		Concurrency:  5,
-		TestDuration: 10 * time.Second,
+		TestDuration: 3 * time.Second,
 		HTTPClientConfig: client.HTTPClientConfig{
-			Timeout: 3 * time.Second,
+			Timeout: 2 * time.Second,
 		},
 	}
 
