@@ -43,7 +43,6 @@ func (lt *LoadTester) Run(scenarios []Scenario) {
   // no need for channels yet as each goroutine can run independently
   // will likely introduce channels once we need aggregated metrics for all goroutines
   var waitGroup sync.WaitGroup
-	// var collectorMutex sync.Mutex // add a mutex for the collector
   fmt.Printf("Adding %d concurrent workers...\n", lt.config.Concurrency)
   waitGroup.Add(lt.config.Concurrency)
 
