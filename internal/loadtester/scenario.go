@@ -31,7 +31,7 @@ func (s *SimpleScenario) Execute(httpClient *http.Client) (*Result, error) {
   defer resp.Body.Close()
 
   result.EndTime = time.Now()
-  result.Latency = result.EndTime.sub(startTime)
+  result.Latency = result.EndTime.Sub(startTime)
   result.StatusCode = resp.StatusCode
   result.Success = resp.StatusCode == 200 && resp.StatusCode < 300
 
@@ -64,7 +64,7 @@ func (c *ComplexScenario) Execute(httpClient *http.Client) (*Result, error) {
   defer resp.Body.Close()
 
   result.EndTime = time.Now()
-  result.Latency = result.EndTime.sub(startTime)
+  result.Latency = result.EndTime.Sub(startTime)
   result.StatusCode = resp.StatusCode
   result.Success = resp.StatusCode == 200 && resp.StatusCode < 300
 
