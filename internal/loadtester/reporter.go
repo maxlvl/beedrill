@@ -3,6 +3,7 @@ package loadtester
 import (
   "fmt"
   "time"
+  "github.com/maxlvl/gocust/internal/result"
 )
 
 type Reporter struct {
@@ -20,7 +21,7 @@ func (r *Reporter) Report() {
   fmt.Println("\nLoad Testing Results:")
   r.Collector.Results.Range(func(key, value interface{}) bool {
     scenarioName := key.(string)
-    scenarioResults := value.([]Result)
+    scenarioResults := value.([]result.Result)
     successCount := 0
     totalLatency := time.Duration(0)
 
