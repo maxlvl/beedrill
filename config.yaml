@@ -1,0 +1,12 @@
+concurrency: 5
+test_duration: 3s
+http_client_config:
+  timeout: 2s
+scenarios:
+  - type: simple
+    url: "http://example.com"
+  - type: complex
+    get_url: "http://example.com"
+    post_url: "http://example.com/post"
+    payload:
+      key: "value"
