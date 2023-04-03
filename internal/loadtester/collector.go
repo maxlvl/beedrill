@@ -2,6 +2,7 @@ package loadtester
 
 import (
   "sync"
+  "github.com/maxlvl/gocust/internal/result"
 )
 
 
@@ -14,8 +15,8 @@ func NewCollector() *Collector {
   return collector
 }
 
-func (c *Collector) Collect(result Result) {
-  scenarioResults, _ := c.Results.LoadOrStore(result.Scenario, []Result{})
-  c.Results.Store(result.Scenario, append(scenarioResults.([]Result), result))
+func (c *Collector) Collect(rs result.Result) {
+  scenarioResults, _ := c.Results.LoadOrStore(rs.Scenario, []result.Result{})
+  c.Results.Store(rs.Scenario, append(scenarioResults.([]result.Result), rs))
 }
 
