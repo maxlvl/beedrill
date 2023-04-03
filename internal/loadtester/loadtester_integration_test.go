@@ -8,6 +8,8 @@ import (
 	"time"
 	"github.com/stretchr/testify/assert"
 	"github.com/maxlvl/gocust/internal/client"
+	"github.com/maxlvl/gocust/scenarios"
+
 )
 
 func TestLoadTesterIntegration(t *testing.T) {
@@ -30,7 +32,7 @@ func TestLoadTesterIntegration(t *testing.T) {
 
   lt := NewLoadTester(config)
 
-  scenarios := []Scenario{&SimpleScenario{URL: ts.URL}}
+  scenarios := []scenarios.Scenario{&scenarios.SimpleScenario{URL: ts.URL}}
 
   lt.Run(scenarios)
   assert.Greater(t, int(atomic.LoadInt32(&requestCounter)), 0, "load tester should've incremented the counter at least once")

@@ -7,17 +7,9 @@ import (
 	"net/http"
   "math/rand"
   "github.com/maxlvl/gocust/internal/client"
+  "github.com/maxlvl/gocust/scenarios"
 )
 
-type Result struct {
-	Scenario    string
-	Success     bool
-	Latency     time.Duration
-	StartTime   time.Time
-	EndTime     time.Time
-	StatusCode  int
-	Error       error
-}
 
 type LoadTesterConfig struct {
   Concurrency       int
@@ -39,7 +31,7 @@ func NewLoadTester(config LoadTesterConfig) *LoadTester {
   }
 }
 
-func (lt *LoadTester) Run(scenarios []Scenario) {
+func (lt *LoadTester) Run(scenarios []scenarios.Scenario) {
   // no need for channels yet as each goroutine can run independently
   // will likely introduce channels once we need aggregated metrics for all goroutines
   var waitGroup sync.WaitGroup

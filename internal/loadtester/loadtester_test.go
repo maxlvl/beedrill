@@ -6,13 +6,15 @@ import (
   "net/http"
   "github.com/maxlvl/gocust/internal/client"
 	"github.com/stretchr/testify/assert"
+  "github.com/maxlvl/gocust/internal/result"
+  "github.com/maxlvl/gocust/scenarios"
 )
 
 type MockScenario struct {}
 
-func (ms *MockScenario) Execute(httpclient *http.Client) (*Result, error) {
+func (ms *MockScenario) Execute(httpclient *http.Client) (*result.Result, error) {
   time.Sleep(100 * time.Millisecond)
-  return &Result{}, nil
+  return &result.Result{}, nil
 }
 
 func TestLoadTester_Run(t *testing.T) {
@@ -27,7 +29,7 @@ func TestLoadTester_Run(t *testing.T) {
   lt := NewLoadTester(config)
 
   startTime := time.Now()
-  scenarios := []Scenario{&MockScenario{}}
+  scenarios := []scenarios.Scenario{&MockScenario{}}
   lt.Run(scenarios)
   elapsed := time.Since(startTime)
 
