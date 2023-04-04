@@ -46,8 +46,6 @@ func (lt *LoadTester) Run(scenarios []scenarios.Scenario) {
 			startTime := time.Now()
 
 			for time.Since(startTime) < lt.config.TestDuration {
-				elapsedTime := time.Since(startTime)
-				fmt.Printf("Running random scenario for startTime %s, elapsed time: %s\n", startTime.Format("2006-01-02 15:04:05"), elapsedTime) // Print elapsed time
 				scenarioIndex := rand.Intn(len(scenarios))
 				result, err := scenarios[scenarioIndex].Execute(lt.httpClient)
 				if err != nil {
