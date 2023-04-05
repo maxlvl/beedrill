@@ -5,6 +5,7 @@ import (
 	"github.com/maxlvl/gocust/internal/client"
 	"github.com/maxlvl/gocust/internal/loadtester"
 	"github.com/maxlvl/gocust/scenarios"
+	"github.com/maxlvl/gocust/web/server"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
 	"time"
@@ -46,6 +47,13 @@ func main() {
 	}
 
 	lt := loadtester.NewLoadTester(ltConfig)
+
+	srv := web.NewServer(":8080", lt)
+	err = srv.Start()
+	if err != nil {
+		fmt.Sprintf("Error starting webserver : %s\n", err)
+		return
+	}
 
 	var scenarios_array []scenarios.Scenario
 	for _, s := range config.Scenarios {
