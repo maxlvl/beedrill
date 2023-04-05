@@ -16,8 +16,9 @@ func NewReporter(collector *Collector) *Reporter {
 	}
 }
 
-func (r *Reporter) Report() {
+func (r *Reporter) Report() bool {
 	fmt.Println("\nLoad Testing Results:")
+	reporter_success := true
 	r.Collector.Results.Range(func(key, value interface{}) bool {
 		scenarioName := key.(string)
 		scenarioResults := value.([]result.Result)
@@ -27,6 +28,10 @@ func (r *Reporter) Report() {
 		for _, result := range scenarioResults {
 			if result.Success {
 				successCount++
+			}
+			if result.Latency < 0 {
+				fmt.Printf("Error encountered: result.Latency is below zero\n")
+				reporter_success = false
 			}
 			totalLatency += result.Latency
 		}
@@ -41,4 +46,5 @@ func (r *Reporter) Report() {
 		fmt.Printf("  Average Latency: %v\n", averageLatency)
 		return true
 	})
+	return reporter_success
 }
