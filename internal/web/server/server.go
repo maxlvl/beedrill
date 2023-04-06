@@ -25,6 +25,7 @@ func NewServer(addr string, lt *loadtester.LoadTester, config_ config.Config) *S
 }
 
 func (s *Server) Start() error {
+	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("../internal/web/js"))))
 	http.HandleFunc("/", s.HandleIndex)
 	http.HandleFunc("/api/v1/start", s.HandleStart)
 	s.httpServer.ListenAndServe()
@@ -32,7 +33,7 @@ func (s *Server) Start() error {
 }
 
 func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "../internal/web/server/index.html")
+	http.ServeFile(w, r, "../internal/web/index.html")
 }
 
 func (s *Server) HandleStart(w http.ResponseWriter, r *http.Request) {
