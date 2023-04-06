@@ -1,7 +1,6 @@
 package web
 
 import (
-	"fmt"
 	"github.com/maxlvl/gocust/config"
 	"github.com/maxlvl/gocust/internal/loadtester"
 	"github.com/maxlvl/gocust/scenarios"
@@ -37,7 +36,6 @@ func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) HandleStart(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("In the HandleStart func")
 	var scenarios_array []scenarios.Scenario
 	for _, s := range s.config_.Scenarios {
 		switch s.Type {
