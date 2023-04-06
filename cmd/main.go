@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/maxlvl/gocust/config"
 	"github.com/maxlvl/gocust/internal/loadtester"
-	"github.com/maxlvl/gocust/web/server"
+	"github.com/maxlvl/gocust/internal/web/server"
 	yaml "gopkg.in/yaml.v3"
 	"io/ioutil"
 )

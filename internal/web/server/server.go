@@ -32,7 +32,7 @@ func (s *Server) Start() error {
 }
 
 func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "../index.html")
+	http.ServeFile(w, r, "../internal/web/server/index.html")
 }
 
 func (s *Server) HandleStart(w http.ResponseWriter, r *http.Request) {
