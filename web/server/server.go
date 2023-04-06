@@ -27,7 +27,6 @@ func NewServer(addr string, lt *loadtester.LoadTester, config_ config.Config) *S
 func (s *Server) Start() error {
 	http.HandleFunc("/", s.HandleIndex)
 	http.HandleFunc("/api/v1/start", s.HandleStart)
-	// http.HandleFunc('/api/v1/stop', s.HandleStop(),
 	s.httpServer.ListenAndServe()
 	return nil
 }
@@ -38,7 +37,6 @@ func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) HandleStart(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("In the HandleStart func")
-	// TODO: figure out how to actually start the LT run from here
 	var scenarios_array []scenarios.Scenario
 	for _, s := range s.config_.Scenarios {
 		switch s.Type {
