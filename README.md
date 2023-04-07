@@ -1,6 +1,6 @@
 # Beedrill
 
-A simple load-testing tool written in the style of Locust.
+A simple load-testing and endpoint performance measuring tool.
 
 I wanted to use this as a learning opportunity to
 
