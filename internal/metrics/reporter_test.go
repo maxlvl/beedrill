@@ -1,7 +1,7 @@
 package metrics
 
 import (
-	"github.com/maxlvl/gocust/internal/result"
+	"github.com/maxlvl/beedrill/internal/result"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

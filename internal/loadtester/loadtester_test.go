@@ -1,9 +1,9 @@
 package loadtester
 
 import (
-	"github.com/maxlvl/gocust/internal/client"
-	"github.com/maxlvl/gocust/internal/result"
-	"github.com/maxlvl/gocust/scenarios"
+	"github.com/maxlvl/beedrill/internal/client"
+	"github.com/maxlvl/beedrill/internal/result"
+	"github.com/maxlvl/beedrill/scenarios"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"

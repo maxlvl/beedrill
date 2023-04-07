@@ -1,7 +1,7 @@
 package scenarios
 
 import (
-	"github.com/maxlvl/gocust/internal/client"
+	"github.com/maxlvl/beedrill/internal/client"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"

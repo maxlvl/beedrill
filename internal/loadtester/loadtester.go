@@ -2,9 +2,9 @@ package loadtester
 
 import (
 	"fmt"
-	"github.com/maxlvl/gocust/internal/client"
-	"github.com/maxlvl/gocust/internal/metrics"
-	"github.com/maxlvl/gocust/scenarios"
+	"github.com/maxlvl/beedrill/internal/client"
+	"github.com/maxlvl/beedrill/internal/metrics"
+	"github.com/maxlvl/beedrill/scenarios"
 	"math/rand"
 	"net/http"
 	"sync"

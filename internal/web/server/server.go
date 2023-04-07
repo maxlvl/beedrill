@@ -1,9 +1,9 @@
 package web
 
 import (
-	"github.com/maxlvl/gocust/config"
-	"github.com/maxlvl/gocust/internal/loadtester"
-	"github.com/maxlvl/gocust/scenarios"
+	"github.com/maxlvl/beedrill/config"
+	"github.com/maxlvl/beedrill/internal/loadtester"
+	"github.com/maxlvl/beedrill/scenarios"
 	"net/http"
 )
 

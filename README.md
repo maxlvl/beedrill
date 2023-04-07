@@ -1,4 +1,4 @@
-# GOCUST
+# beedrill
 
 A simple load-testing tool written in the style of Locust.
 

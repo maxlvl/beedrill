@@ -1,4 +1,4 @@
-module github.com/maxlvl/gocust
+module github.com/maxlvl/beedrill
 
 go 1.19
 

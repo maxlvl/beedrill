@@ -2,7 +2,7 @@ package metrics
 
 import (
 	"fmt"
-	"github.com/maxlvl/gocust/internal/result"
+	"github.com/maxlvl/beedrill/internal/result"
 	"time"
 )
 

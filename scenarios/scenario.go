@@ -2,8 +2,8 @@ package scenarios
 
 import (
 	"encoding/json"
-	"github.com/maxlvl/gocust/internal/client"
-	"github.com/maxlvl/gocust/internal/result"
+	"github.com/maxlvl/beedrill/internal/client"
+	"github.com/maxlvl/beedrill/internal/result"
 	"net/http"
 	"time"
 )
